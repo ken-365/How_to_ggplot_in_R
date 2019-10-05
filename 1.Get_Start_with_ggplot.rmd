@@ -5,7 +5,7 @@ date: "10/5/2019"
 output: github_document
 ---
 Note that this are my approach on ggplot. Hence, it contains my views and comments. "ALL RIGHTS RESERVED"  
-```{r echo=TRUE}
+```{r 1, echo=TRUE}
 library(dslabs)
 data(murders)
 library(dplyr)
@@ -16,7 +16,7 @@ library(dplyr)
 or  
 2.tidyverse (will include ggplot)  
 
-```{r}
+```{r 2}
 library(ggplot2)
 library(tidyverse)
 ```
@@ -33,7 +33,7 @@ library(tidyverse)
   * x-axis and y-axis mapping with data  
 
 **Data that we will work on**
-```{r}
+```{r 3}
 # Total murder in United States by each States
 str(murders)
 head(murders)
@@ -42,7 +42,7 @@ head(murders)
 **Createing a plot**  
 
 1. Initiate data object  
-```{r eval=FALSE, include=T}
+```{r 4, eval=FALSE, include=T}
 ggplot (data = murders)
 #or using pipe
 Plot = murders %>% ggplot()
@@ -54,7 +54,7 @@ Plot = murders %>% ggplot()
   * First layer is type of plot. For example, geom_point() for scatter plot and geom_histogram() for histogram  
   * creating scatter plot using aes() to specify x-axis and y-axis   
   
-```{r}
+```{r 5}
 #in this case we want to see correlation between total population (x) and number of total murders (y)
 m.plot = murders %>% ggplot(aes (x = population/10**6 , y = total)) +
   geom_point()
@@ -69,7 +69,7 @@ m.plot +
   * You probably notice from our plot that abbs(state name) were difficult to read by stay behind those points  
   * Several ways to edit your point , texts and etc. Some sample can be found here.
   
-```{r}
+```{r 6}
 #Making point smaller with geom_point(aes(), "size")
 m.plot + geom_point( size = 1)
 #move text to the left with geom_text(aes(), "nudge_x")
@@ -81,7 +81,7 @@ m.plot + geom_text(aes (label = abb), nudge_x = 1)
 
   * Adjust scales with log10 so we can better see the correlation 
   
-```{r}
+```{r 7}
 #use layer scale_x_continuous () and scale_y_continuous () to transform scales
 m.plot + geom_point( size = 3) +
   scale_x_continuous (trans = "log10")+
@@ -89,7 +89,7 @@ m.plot + geom_point( size = 3) +
 ```
   
   * Add label for x-axis and y-axis with xlab() and ylab() and plot title with ggtitle()
-```{r}
+```{r 8}
 m.plot +
   xlab ("Population in millions") + 
   ylab ("Total number of murders") + 
@@ -97,7 +97,7 @@ m.plot +
 ```
   
   * Change color of the points by color() in geom_point()
-```{r}
+```{r 9}
 #Change all points color to blue
 m.plot + geom_point(size = 3, color = "blue")
 #You can catagorize color by each Regions
@@ -106,7 +106,7 @@ m.plot + geom_point(aes(col = region), size = 3)
   
   * Add a average total murders rate line using geom_abline()
   
-```{r}
+```{r 10}
 # Compute (r) a average total murders rate
 r = murders %>%
   summarize(rate = sum(total) / sum(population) *10^6) %>% .$rate
@@ -122,13 +122,13 @@ m.plot + geom_point(aes (col = region) , size = 3) +
   
   * Another powerful package ggthemes and ggrepel that help implement new themes
   
-```{r}
+```{r 11}
 # Install package and apply selected theme on plot
 library(ggthemes)
 m.plot + theme_economist()
 ```
   
-```{r}
+```{r 12}
 #ggrepel help move text around to be able to see clearly
 library(ggrepel)
 m.plot + geom_text_repel(aes (label =abb) )
@@ -136,7 +136,7 @@ m.plot + geom_text_repel(aes (label =abb) )
   
 ### Done!! Putting everything we learn all together. We get clearly visualization for the Murders date  
 
-```{r}
+```{r 13}
 #initiate data
 murders %>% ggplot(aes (x = population/10^6 , y = total, label = abb)) + 
   #define type of plot
